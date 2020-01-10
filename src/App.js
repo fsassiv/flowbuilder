@@ -13,7 +13,7 @@ function App() {
         <button className="zoom-btn plus" onClick={() => setZoom(zoom + 0.05)}>
           +
         </button>
-        <p>{zoom}</p>
+        <p>{Math.floor(Math.ceil(zoom * 100), 2)}</p>
         <button className="zoom-btn minus" onClick={() => setZoom(zoom - 0.05)}>
           -
         </button>
