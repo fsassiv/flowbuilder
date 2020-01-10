@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import FlowBlock from "./FlowBlock";
-import uuid from "uuid/v1";
+import uniqid from "uniqid";
 import "./CanvasComponent.scss";
 
 class CanvasComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blocks: [{ id: uuid() }, { id: uuid() }, { id: uuid() }, { id: uuid() }],
+      blocks: [
+        { id: uniqid() },
+        { id: uniqid() },
+        { id: uniqid() },
+        { id: uniqid() }
+      ],
       links: [],
       linkSettings: {
         color: "#64b5f6",
@@ -70,7 +75,7 @@ class CanvasComponent extends Component {
             handleMove={id => handleMove(id)}
             handleClick={id => handleClick(id)}
             key={block.id}
-            uuid={block.id}
+            blockId={block.id}
           />
         ))}
       </div>

@@ -5,13 +5,13 @@ class FlowBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.uuid
+      id: props.blockId
     };
   }
 
   componentDidMount() {
     const self = new window.PlainDraggable(
-      document.getElementById(this.props.uuid),
+      document.getElementById(this.props.blockId),
       {
         autoScroll: true,
         leftTop: true,
