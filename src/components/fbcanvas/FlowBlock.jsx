@@ -5,7 +5,11 @@ class FlowBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.blockId
+      id: props.blockId,
+      initialPosition: {
+        top: 0,
+        left: 0
+      }
     };
   }
 
@@ -18,11 +22,22 @@ class FlowBlock extends Component {
         onMove: this.handleMove
       }
     );
-    this.setState({ self });
+    this.setState({ self }, () => {
+      this.state.self.position({ ...this.state.initialPosition });
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(this);
   }
 
   handleMove = () => {
+    const { self } = this.state;
+    const { top, left } = self;
+
     this.props.handleMove(this.state.id);
+    //update element position in te DB
+    this.setState({ initialPosition: { top, left } });
   };
 
   render() {

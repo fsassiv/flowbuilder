@@ -66,3 +66,30 @@ body,
     transform: rotate(360deg);
   }
 }
+
+.zoom-bar {
+  position: fixed;
+  bottom: 5%;
+  left: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.zoom-bar p {
+  margin: 0 5px;
+}
+
+.zoom-btn {
+  border-radius: 5px;
+  background-color: white;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}

@@ -51,9 +51,19 @@ class CanvasComponent extends Component {
     this.setState({ links: newLinks });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { links } = this.state;
+    links.forEach(link => {
+      link.position();
+    });
+  }
+
   render() {
     const { blocks, links } = this.state;
+    const { zoom } = this.props;
+
     const handleMove = () => {
+      //update lines on moviment
       links.forEach(link => {
         link.position();
       });
@@ -68,16 +78,27 @@ class CanvasComponent extends Component {
         }
       });
     };
+
     return (
       <div className="canvasComponent">
-        {blocks.map(block => (
-          <FlowBlock
-            handleMove={id => handleMove(id)}
-            handleClick={id => handleClick(id)}
-            key={block.id}
-            blockId={block.id}
-          />
-        ))}
+        <div
+          className="canvasComponent--inner"
+          style={{
+            transform: `scale(${zoom})`,
+            // zoom: zoom,
+            width: "100vw",
+            height: "100vh"
+          }}
+        >
+          {blocks.map(block => (
+            <FlowBlock
+              handleMove={id => handleMove(id)}
+              handleClick={id => handleClick(id)}
+              key={block.id}
+              blockId={block.id}
+            />
+          ))}
+        </div>
       </div>
     );
   }

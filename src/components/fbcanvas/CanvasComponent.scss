@@ -1,6 +1,14 @@
 .canvasComponent {
   position: relative;
-  min-height: 1000vh;
+  min-height: 500vh;
   min-width: 100vw;
   background-color: #474747;
+}
+
+.canvasComponent--inner {
+  background-color: inherit;
+  min-height: inherit;
+  min-width: inherit;
+  -webkit-transition: all 0, 5s ease;
+  transition: all 0, 5s ease;
 }
