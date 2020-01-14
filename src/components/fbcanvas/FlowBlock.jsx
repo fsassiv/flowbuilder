@@ -23,31 +23,33 @@ class FlowBlock extends Component {
       }
     );
     this.setState({ self }, () => {
-      this.state.self.position({ ...this.state.initialPosition });
+      // this.state.self.position({ ...this.state.initialPosition });
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // console.log(this);
-  }
+  componentDidUpdate(prevProps, prevState) {}
 
   handleMove = () => {
     const { self } = this.state;
     const { top, left } = self;
-
     this.props.handleMove(this.state.id);
     //update element position in te DB
     this.setState({ initialPosition: { top, left } });
   };
 
   render() {
-    const { id } = this.state;
+    const { id, initialPosition } = this.state;
 
     return (
       <div
         className="flowblock"
         onClick={event => this.props.handleClick(event)}
         id={id}
+        style={{
+          top: initialPosition.top + "px!important",
+          left: initialPosition.left + "px!important",
+          color: "red"
+        }}
       >
         Drag Me
       </div>

@@ -1,14 +1,17 @@
 .canvasComponent {
   position: relative;
-  min-height: 500vh;
-  min-width: 100vw;
-  background-color: #474747;
+  min-height: 150vh;
+  min-width: 150vw;
+  background-color: #a3a3a3;
+  text-align: left;
+  -ms-touch-action: none;
+  touch-action: none;
 }
 
-.canvasComponent--inner {
-  background-color: inherit;
-  min-height: inherit;
-  min-width: inherit;
-  -webkit-transition: all 0, 5s ease;
-  transition: all 0, 5s ease;
-}
+// .canvasComponent--inner {
+//   background-color: inherit;
+//   min-height: inherit;
+//   min-width: inherit;
+//   -webkit-transition: all 0, 5s ease;
+//   transition: all 0, 5s ease;
+// }

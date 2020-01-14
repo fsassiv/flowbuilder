@@ -6,4 +6,7 @@
   min-height: 120px;
   border-radius: 10px;
   background-color: white;
+  -ms-touch-action: none;
+      touch-action: none;
+  position: absolute;
 }
