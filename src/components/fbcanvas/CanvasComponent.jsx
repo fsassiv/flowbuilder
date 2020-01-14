@@ -68,10 +68,10 @@ class CanvasComponent extends Component {
       inertia: true,
       // keep the element within the area of it's parent
       modifiers: [
-        interact.modifiers.restrictRect({
+        interact.modifiers.restrict({
           restriction: "parent",
-          elementRect: { left: 1, right: 0, top: 1, bottom: 0 }
-          // endOnly: true
+          elementRect: { left: 0.5, top: 0.5, bottom: 0.5, right: 0.5 },
+          endOnly: true
         })
       ],
       // enable autoScroll
@@ -85,6 +85,9 @@ class CanvasComponent extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.reset !== this.props.reset) {
+      this.reset();
+    }
     const { links } = this.state;
     links.forEach(link => {
       link.position();
@@ -114,6 +117,16 @@ class CanvasComponent extends Component {
     // this.props.handleMove(target.id);
   };
 
+  reset = () => {
+    document.getElementById("canvasComponent").setAttribute("data-x", 0);
+    document.getElementById("canvasComponent").setAttribute("data-y", 0);
+    document.getElementById(
+      "canvasComponent"
+    ).style.webkitTransform = document.getElementById(
+      "canvasComponent"
+    ).style.transform = "translate(" + 0 + "px, " + 0 + "px)";
+  };
+
   render() {
     const { blocks, links } = this.state;
     const { zoom } = this.props;
@@ -133,16 +146,6 @@ class CanvasComponent extends Component {
           link.show("draw", { duration: 300, timing: "linear" });
         }
       });
-    };
-
-    const reset = () => {
-      document.getElementById("canvasComponent").setAttribute("data-x", 0);
-      document.getElementById("canvasComponent").setAttribute("data-y", 0);
-      document.getElementById(
-        "canvasComponent"
-      ).style.webkitTransform = document.getElementById(
-        "canvasComponent"
-      ).style.transform = "translate(" + 0 + "px, " + 0 + "px)";
     };
 
     return (
@@ -165,9 +168,6 @@ class CanvasComponent extends Component {
           />
         ))}
         {/* <FlowBlockNew handleMove={id => handleMove(id)} /> */}
-        <button className="focus-btn" onClick={reset}>
-          Reset
-        </button>
       </div>
     );
   }

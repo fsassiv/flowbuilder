@@ -28,15 +28,21 @@ export default class FlowBlockNew extends Component {
       // call this function on every dragmove event
       onmove: this.dragMoveListener,
       // call this function on every dragend event
-      onend: null
+      onend: this.dragEndListener
     });
 
     // document.getElementById(`${this.props.blockId}`).setAttribute("data-x", 0);
     // document.getElementById(`${this.props.blockId}`).setAttribute("data-y", 0);
   }
 
+  dragEndListener = ({ target }) => {
+    //persist blocks coordenates
+    // console.log(target.getAttribute("data-x"));
+  };
+
   dragMoveListener = event => {
     var target = event.target;
+
     // keep the dragged position in the data-x/data-y attributes
     var x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
     var y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
@@ -50,7 +56,7 @@ export default class FlowBlockNew extends Component {
     target.setAttribute("data-y", y);
 
     //emit event for update lines
-    this.props.handleMove(target.id);
+    this.props.handleMove();
   };
 
   render() {
