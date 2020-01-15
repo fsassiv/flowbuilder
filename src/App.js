@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <CanvasComponent zoom={zoom} reset={reset} />
+      <CanvasComponent resetZoom={() => setZoom(1)} zoom={zoom} reset={reset} />
 
       <div className="zoom-bar">
         <button className="zoom-btn plus" onClick={() => setZoom(zoom + 0.05)}>

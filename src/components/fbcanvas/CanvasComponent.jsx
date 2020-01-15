@@ -27,7 +27,8 @@ class CanvasComponent extends Component {
           opacity: 0.25
         },
         hide: true
-      }
+      },
+      resizeRef: null
     };
   }
   componentDidMount() {
@@ -63,25 +64,50 @@ class CanvasComponent extends Component {
     });
 
     //https://interactjs.io/
-    interact(`#canvasComponent`).draggable({
-      // enable inertial throwing
-      inertia: true,
-      // keep the element within the area of it's parent
-      modifiers: [
-        interact.modifiers.restrict({
-          restriction: "parent",
-          elementRect: { left: 0.5, top: 0.5, bottom: 0.5, right: 0.5 },
-          endOnly: true
-        })
-      ],
-      // enable autoScroll
-      autoScroll: true,
+    interact(`#canvasComponent`)
+      .draggable({
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        modifiers: [
+          interact.modifiers.restrict({
+            restriction: "parent",
+            elementRect: { left: 0.5, top: 0.5, bottom: 0.5, right: 0.5 },
+            endOnly: true
+          })
+        ],
+        // enable autoScroll
+        autoScroll: true,
 
-      // call this function on every dragmove event
-      onmove: this.dragMoveListener,
-      // call this function on every dragend event
-      onend: null
-    });
+        // call this function on every dragmove event
+        onmove: this.dragMoveListener,
+        // call this function on every dragend event
+        onend: null
+      })
+      .resizable({
+        edges: {
+          top: true,
+          left: true,
+          right: true,
+          bottom: true
+        }
+      })
+      .on("resizemove", event => {
+        let { x, y } = event.target.dataset;
+
+        x = parseFloat(x) || 0;
+        y = parseFloat(y) || 0;
+
+        Object.assign(event.target.style, {
+          width: `${event.rect.width}px`,
+          height: `${event.rect.height}px`,
+          transform: `translate(${event.deltaRect.left}px, ${event.deltaRect.top}px)`
+        });
+
+        Object.assign(event.target.dataset, { x, y });
+        //updae resize ref
+        this.setState({ resizeRef: event });
+      });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -115,9 +141,14 @@ class CanvasComponent extends Component {
     });
     //emit event for update lines
     // this.props.handleMove(target.id);
+
+    //reset the zoom
+    // this.props.resetZoom();
   };
 
   reset = () => {
+    const { resizeRef: event } = this.state;
+
     document.getElementById("canvasComponent").setAttribute("data-x", 0);
     document.getElementById("canvasComponent").setAttribute("data-y", 0);
     document.getElementById(
@@ -125,6 +156,20 @@ class CanvasComponent extends Component {
     ).style.webkitTransform = document.getElementById(
       "canvasComponent"
     ).style.transform = "translate(" + 0 + "px, " + 0 + "px)";
+
+    //reset resize
+    let { x, y } = event.target.dataset;
+
+    x = parseFloat(x) || 0;
+    y = parseFloat(y) || 0;
+
+    Object.assign(event.target.style, {
+      width: `100vw`,
+      height: `100vh`,
+      transform: `translate(${event.deltaRect.left}px, ${event.deltaRect.top}px)`
+    });
+
+    Object.assign(event.target.dataset, { x, y });
   };
 
   render() {
@@ -153,9 +198,9 @@ class CanvasComponent extends Component {
         className="canvasComponent"
         id="canvasComponent"
         style={{
-          transform: `scale(${zoom})`,
-          width: "100vw",
-          height: "100vh"
+          transform: `scale(${zoom})`
+          // width: "100vw",
+          // height: "100vh"
         }}
         // draggable="true"
       >
